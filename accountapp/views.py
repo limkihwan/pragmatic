@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
@@ -24,6 +26,12 @@ def hello_world(request):
     else:
         hello_world_list = HelloWorld.objects.all()
         return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
+
+# Get방식의 Logout 처리 (POST 방식은 권장함)
+def logout_view(request):
+    logout(request)
+    from django.urls import reverse
+    return HttpResponseRedirect(settings.LOGOUT_REDIRECT_URL)
 
 
 class AccountCreateView(CreateView):
