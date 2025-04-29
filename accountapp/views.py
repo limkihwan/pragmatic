@@ -1,12 +1,14 @@
 from django.conf import settings
 from django.contrib.auth import logout
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, FormView
 
+from accountapp.forms import AccountUpdateForm
 from accountapp.models import *
 
 
@@ -43,3 +45,17 @@ class AccountDetailView(DetailView):
     model = User
     context_object_name = 'target_user'
     template_name = 'accountapp/detail.html'
+
+class AccountUpdateView(LoginRequiredMixin, FormView):
+    form_class = AccountUpdateForm
+    template_name = 'accountapp/update.html'
+    success_url = reverse_lazy('accountapp:hello_world')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user  # 폼에 user 인자 전달
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
