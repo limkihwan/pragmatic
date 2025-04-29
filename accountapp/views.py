@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, FormView
+from django.views.generic import CreateView, DetailView, FormView, DeleteView
 
 from accountapp.forms import AccountUpdateForm
 from accountapp.models import *
@@ -59,3 +59,8 @@ class AccountUpdateView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+class AccountDeleteView(DeleteView):
+    model = User
+    success_url = reverse_lazy('accountapp:login')
+    template_name = 'accountapp/delete.html'
