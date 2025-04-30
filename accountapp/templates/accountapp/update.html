@@ -2,31 +2,16 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-<div class="container mt-5" style="max-width: 500px;">
-    <div class="card">
-        <div class="card-header">
-            <h4 class="mb-0">Change Password</h4>
-        </div>
-        <div class="card-body">
-            <form method="post">
-                {% csrf_token %}
 
-                <!-- 사용자 이름 표시 -->
-                <div class="mb-3">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="form-control"
-                           value="{{ request.user.username }}" disabled>
-                </div>
-
-                <!-- 새 비밀번호 입력 필드 -->
-                {% bootstrap_field form.new_password1 %}
-                {% bootstrap_field form.new_password2 %}
-
-                <div class="d-grid gap-2 mt-4">
-                    <button type="submit" class="btn btn-primary">Change Password</button>
-                </div>
-            </form>
-        </div>
+<div style="text-align: center; max-width: 500px; margin: 4rem auto;">
+    <div class="mb-4">
+        <h4>Change Info</h4>
     </div>
+    <form action="{% url 'accountapp:update' pk=target_user.pk %}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3"/>
+    </form>
 </div>
+
 {% endblock %}

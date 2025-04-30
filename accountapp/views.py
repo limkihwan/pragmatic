@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, FormView, DeleteView
+from django.views.generic import CreateView, DetailView, FormView, DeleteView, UpdateView
 
 from accountapp.forms import AccountUpdateForm
 from accountapp.models import *
@@ -46,21 +46,15 @@ class AccountDetailView(DetailView):
     context_object_name = 'target_user'
     template_name = 'accountapp/detail.html'
 
-class AccountUpdateView(LoginRequiredMixin, FormView):
+class AccountUpdateView(UpdateView):
+    model = User
     form_class = AccountUpdateForm
-    template_name = 'accountapp/update.html'
+    context_object_name = 'target_user'
     success_url = reverse_lazy('accountapp:hello_world')
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user  # 폼에 user 인자 전달
-        return kwargs
-
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
+    template_name = 'accountapp/update.html'
 
 class AccountDeleteView(DeleteView):
     model = User
+    context_object_name = 'target_user'
     success_url = reverse_lazy('accountapp:login')
     template_name = 'accountapp/delete.html'
