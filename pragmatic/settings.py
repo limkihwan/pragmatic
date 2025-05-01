@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'accountapp',
     'django_bootstrap5',
     'profileapp',
+    'articleapp',
 ]
 
 MIDDLEWARE = [
