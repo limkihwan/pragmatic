@@ -47,12 +47,12 @@ class AccountCreateView(CreateView):
     success_url = reverse_lazy('accountapp:hello_world')
     template_name = 'accountapp/create.html'
 
-@method_decorator(account_ownership_required, name='get')
+
+
 class AccountDetailView(DetailView):
     model = User
     context_object_name = 'target_user'
     template_name = 'accountapp/detail.html'
-
 
 
 @method_decorator(has_ownership, name='get')
