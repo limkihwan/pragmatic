@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     'profileapp',
     'articleapp',
+    'commentapp',
 ]
 
 MIDDLEWARE = [
@@ -142,4 +143,6 @@ LOGOUT_REDIRECT_URL = reverse_lazy('accountapp:hello_world')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 
