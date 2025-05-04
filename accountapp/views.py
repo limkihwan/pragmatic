@@ -20,24 +20,6 @@ from articleapp.models import Article
 
 has_ownership = [account_ownership_required, login_required]
 
-
-@login_required
-def hello_world(request):
-
-    if request.method == "POST":
-        temp = request.POST.get('hello_world_input')
-
-        new_hello_world = HelloWorld()
-        new_hello_world.text = temp
-        new_hello_world.save()
-
-        hello_world_list = HelloWorld.objects.all()
-        return HttpResponseRedirect(reverse('accountapp:hello_world'))
-    else:
-        hello_world_list = HelloWorld.objects.all()
-        return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
-
-
 # Get방식의 Logout 처리 (POST 방식은 권장함)
 def logout_view(request):
     logout(request)
