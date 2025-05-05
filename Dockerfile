@@ -19,6 +19,8 @@ WORKDIR /home/pragmatic/
 # 개발할때 저장 했던, requirements.txt 파일
 RUN pip install -r requirements.txt
 
+RUN pip install gunicorn
+
 # 임시로 사용 ENV 파일
 RUN echo "SECRET_KEY=django-insecure-md#1p*j%tip&f8(7-(bre!v&p@^0ea!i*6+!o1knj!_5#$=vmf" > .env
 
@@ -30,6 +32,6 @@ RUN python manage.py migrate
 EXPOSE 8000
 
 # 장고컨테이너가 생성될때마다, 실행할 기본 명령어
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-
-
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Gunicorm으로 실행 명령어 작성
+CMD ["gunicorn", "pragmatic.wsgi", "--bind", "0.0.0.0:8000"]
