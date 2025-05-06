@@ -5,6 +5,8 @@ FROM python:3.11.8
 # 리눅스 환경 설정
 WORKDIR /home/
 
+RUN echo "testing"
+
 # home에서 소스 코드 가져옴
 # git hub에 <>Code를 누르면 Local탭 > HTTPS 주소를 복사하여 붙여 넣는다.
 # git hub에 있는 소스코드사 이미지에 들어가게 됨
@@ -21,11 +23,11 @@ RUN pip install -r requirements.txt
 
 RUN pip install gunicorn
 
+#Mysql, Mariadb 사용하기위하여 라이브러리 설치
+RUN pip install mysqlclient
+
 # 임시로 사용 ENV 파일
 RUN echo "SECRET_KEY=django-insecure-md#1p*j%tip&f8(7-(bre!v&p@^0ea!i*6+!o1knj!_5#$=vmf" > .env
-
-# db.sqlite3 연동
-RUN python manage.py migrate
 
 RUN python manage.py collectstatic
 
@@ -35,4 +37,4 @@ EXPOSE 8000
 # 장고컨테이너가 생성될때마다, 실행할 기본 명령어
 #CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 # Gunicorm으로 실행 명령어 작성
-CMD ["gunicorn", "pragmatic.wsgi", "--bind", "0.0.0.0:8000"]
+CMD ["bash", "-c", "python manage.py migrate --settings=pragmatic.settings.deploy && gunicorn pragmatic.wsgi --env DJANGO_SETTINGS_MODULE=pragmatic.settings.deploy --bind 0.0.0.0:8000"]
