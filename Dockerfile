@@ -27,6 +27,7 @@ RUN echo "SECRET_KEY=django-insecure-md#1p*j%tip&f8(7-(bre!v&p@^0ea!i*6+!o1knj!_
 # db.sqlite3 연동
 RUN python manage.py migrate
 
+RUN python manage.py collectstatic
 
 # 포트 열기 : 8000번 포트로 통신할수 있도록 설정
 EXPOSE 8000
